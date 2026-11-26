@@ -1,8 +1,8 @@
 # Contributor instructions for coding agents
 
-This project is in its definition and design phase. Do not implement runtime code,
-install dependencies, scaffold ROS packages, or operate hardware unless the user or
-maintainers explicitly open that scope.
+The authorized implementation scope is ROS 2 setup and communication checks.
+Cell runtime packages and hardware operation require explicit additional scope.
+Keep smoke checks bounded and isolated from existing robot services.
 
 Read README.md, CONTRIBUTING.md, and docs/architecture.md before making changes.
 Keep proposals distinct from accepted decisions and measured capabilities. Update

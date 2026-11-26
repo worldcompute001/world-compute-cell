@@ -2,10 +2,10 @@
 
 ## Current phase
 
-We are defining the project. Contributions currently cover documentation, interface
-proposals, architecture review, and validation plans. Do not add runtime code,
-dependencies, ROS packages, or deployment configuration until maintainers open the
-implementation phase. No hardware or ROS installation is needed to contribute now.
+We are defining the cell and bringing up ROS 2. Contributions cover documentation,
+interface proposals, architecture review, validation plans, and the ROS 2 setup
+and communication check. Cell runtime packages and hardware integration require
+a separate scope decision. Documentation contributions need no hardware.
 
 ## Workflow
 
@@ -19,9 +19,7 @@ implementation phase. No hardware or ROS installation is needed to contribute no
 5. Have a maintainer review before merging. Resolve disagreements in the issue;
    record accepted architectural choices in an ADR.
 
-Small wording and broken-link fixes can go directly to a PR. Contributor assignment,
-review ownership, and repository hosting will be established when the repository
-is published. Avoid duplicating active work: comment on the relevant issue first.
+Small wording and broken-link fixes can go directly to a PR. Contributor assignment and review ownership are coordinated through issues. Avoid duplicating active work: comment on the relevant issue first.
 
 ## Design conventions
 
@@ -40,7 +38,7 @@ is published. Avoid duplicating active work: comment on the relevant issue first
 - Are failure behavior and acceptance evidence described?
 - Do relative links resolve and related documents agree?
 - Are example tolerances clearly marked as provisional?
-- Does the change stay within the current documentation-only phase?
+- Does the change stay within the current design and ROS 2 setup scope?
 
 Never commit credentials, private station configuration, or raw identifiable camera
 recordings. Use anonymized examples when explaining observations.

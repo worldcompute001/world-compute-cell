@@ -20,5 +20,5 @@ Include units, frames, clocks, and capabilities where relevant.
 
 ## Open questions and related decisions
 
-This project is currently documentation-only; implementation needs an explicit
-maintainer decision to open that phase.
+Implementation currently covers ROS 2 setup and communication checks. Additional
+runtime or hardware work needs an explicit scope decision.

@@ -11,7 +11,8 @@ These are ordered milestones, not scheduled commitments.
 - [ ] Agree on first supported station OS and ROS 2 distribution.
 - [ ] Review ROS interfaces, namespaces, clocks, QoS, and ownership protocol.
 - [ ] Define local operator flows and the first hardware acceptance procedure.
-- [ ] Explicitly approve the implementation phase.
+- [x] Open the first implementation scope: ROS 2 setup and communication checks.
+- [ ] Approve cell runtime implementation separately.
 
 ## Next: operate one robot locally
 
