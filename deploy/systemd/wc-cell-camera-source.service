@@ -1,0 +1,13 @@
+[Unit]
+Description=Read-only Windows camera export mount for ROS 2
+Before=wc-cell-camera.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/mkdir -p /mnt/wc-camera-export
+ExecStart=/bin/sh -c 'mountpoint -q /mnt/wc-camera-export || mount -t drvfs C:/ProgramData/WorldComputeCell/camera-export /mnt/wc-camera-export -o ro'
+ExecStop=/bin/umount /mnt/wc-camera-export
+
+[Install]
+WantedBy=multi-user.target

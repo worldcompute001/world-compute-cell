@@ -8,9 +8,10 @@ robotics lab—and make it easier for other people to build their own.
 The idea is simple: connect your robot, see what it sees, control it from your own
 computer, and start experimenting. Then let other people join you remotely.
 
-We’re starting in the open. **Our first step is getting ROS 2 running.**
+We’re starting in the open. **ROS 2 and our first overhead camera stream are running.**
 You can follow the [ROS 2 setup guide](docs/ros2-setup.md) and run a communication
-check. The robot cell itself is still in design.
+check. The [camera guide](docs/cameras.md) covers the first read-only adapter.
+Calibration, simulation rendering, and robot control are still to come.
 
 ## What we’re building toward
 
@@ -71,8 +72,8 @@ Right now, the most useful contributions are:
 
 [Open an issue](https://github.com/worldcompute001/world-compute-cell/issues/new/choose)
 to share an idea, or read [how to contribute](CONTRIBUTING.md) before opening a PR.
-The current implementation scope is ROS 2 setup and communication checks. Cell
-interfaces and robot integration are still being designed.
+The current implementation scope is ROS 2 setup and read-only camera observations.
+Cell controls and simulation integration are still being designed.
 
 ## Project notes
 

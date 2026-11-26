@@ -1,7 +1,8 @@
 # First ROS 2 setup
 
 The first enabled implementation scope is ROS 2 installation and communication
-verification. Cell runtime packages and physical robot integration remain future work.
+verification. The read-only overhead camera adapter is also available; see [cameras](cameras.md).
+Robot controls remain future work.
 
 ## Environment
 
@@ -38,7 +39,7 @@ bash scripts/check-ros2.sh
 The script runs an upstream C++ talker and Python listener, verifies a message with
 `ros2 topic echo`, and cleans up the demo processes. All commands are bounded by
 timeouts. It uses domain 87 and localhost discovery, with Fast DDS explicitly
-selected. Reserve that domain for this check. Domain IDs separate ROS graphs;
+selected. Domain 87 also hosts the local camera adapter; this demo uses only `/chatter`. Domain IDs separate ROS graphs;
 they are not an authentication mechanism.
 
 For interactive use, set these in each Ubuntu terminal:

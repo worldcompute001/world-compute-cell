@@ -3,3 +3,9 @@ __pycache__/
 .venv/
 .env*
 runs/
+build/
+install/
+log/
+*.jpg
+*.png
+frame.json

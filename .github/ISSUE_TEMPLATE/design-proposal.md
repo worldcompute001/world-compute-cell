@@ -20,5 +20,5 @@ Include units, frames, clocks, and capabilities where relevant.
 
 ## Open questions and related decisions
 
-Implementation currently covers ROS 2 setup and communication checks. Additional
+Implementation currently covers ROS 2 setup, communication checks, and read-only camera observations. Additional
 runtime or hardware work needs an explicit scope decision.

@@ -14,6 +14,14 @@ These are ordered milestones, not scheduled commitments.
 - [x] Open the first implementation scope: ROS 2 setup and communication checks.
 - [ ] Approve cell runtime implementation separately.
 
+## First camera observation slice
+
+- [x] Reuse the Windows capture owner for the overhead camera.
+- [x] Publish ROS images, uncalibrated camera info, and health status.
+- [x] Verify live frames and transport loss/recovery.
+- [ ] Measure intrinsics and table-to-camera transform.
+- [ ] Implement a matching MuJoCo camera adapter.
+
 ## Next: operate one robot locally
 
 Bring up one cell with documented configuration. The operator can view state and

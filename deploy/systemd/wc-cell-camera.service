@@ -1,0 +1,20 @@
+[Unit]
+Description=World Compute cell overhead camera ROS 2 bridge
+Requires=wc-cell-camera-source.service
+After=wc-cell-camera-source.service
+
+[Service]
+Type=simple
+User=robot
+WorkingDirectory=/opt/world-compute-cell
+Environment=ROS_DOMAIN_ID=87
+Environment=ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST
+Environment=RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+ExecStart=/bin/bash -c 'unset ROS_STATIC_PEERS; source /opt/ros/jazzy/setup.bash; source /opt/world-compute-cell/install/setup.bash; exec ros2 run world_compute_camera camera_bridge --ros-args -p source_file:=/mnt/wc-camera-export/frame.json'
+Restart=on-failure
+RestartSec=3
+KillSignal=SIGINT
+TimeoutStopSec=10
+
+[Install]
+WantedBy=multi-user.target
