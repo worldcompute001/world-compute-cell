@@ -1,42 +1,84 @@
-# world-compute-cell
+# I’m open-sourcing my home robotics lab! 🤖
 
-An open-source robot cell that you can operate locally, with remote access added later.
+**A robot, a few cameras, and a workspace anyone should be able to build on.**
 
-**Status: project definition and design. No runtime is implemented.**
-We are establishing the architecture and contribution process before writing software.
+I’m starting **world-compute-cell** to share the software and setup behind a home
+robotics lab—and make it easier for other people to build their own.
 
-## Purpose
+The idea is simple: connect your robot, see what it sees, control it from your own
+computer, and start experimenting. Then let other people join you remotely.
 
-Make it straightforward to connect a robot and cameras, operate them through a local
-interface, calibrate the workspace, and record reproducible experiments. The cell
-should work without a cloud account. Physical and simulated environments should
-share task and observation contracts.
+We’re starting in the open, with the design. **There’s no software to install yet.**
+This repository is where we’ll work out how the pieces fit together before we
+start implementing them.
 
-ROS 2 connects the components inside the cell. Later, World Compute can provide
-remote discovery, access, scheduling, and results, while LiveKit carries live
-sessions. The cell remains responsible for command ownership and execution.
+## What we’re building toward
 
-## Start here
+- **Control your robot locally.** See its state and camera feeds, move it, and stop
+  it from a local interface. No cloud account required.
+- **Give your robot a view of the workspace.** Connect cameras and calibrate where
+  the table, objects, and gripper are.
+- **Try experiments in simulation and on the real robot.** Run the same task in
+  both places and understand where the results differ.
+- **Keep a record of what happened.** Save observations, commands, and results so
+  experiments can be replayed, inspected, and improved.
+- **Share the lab.** Later, stream sessions and give people remote access, with
+  control permissions enforced by the local cell.
 
-- [Architecture](docs/architecture.md): components, communication, and ownership.
-- [Roadmap](docs/roadmap.md): design work and future acceptance milestones.
-- [Contributing](CONTRIBUTING.md): how to propose and review changes.
-- [Decisions](docs/decisions/README.md): unresolved choices and decision records.
+A “cell” just means one robot workspace: the arm, its cameras, the table, and the
+computer running it. The goal is to make that setup useful on its own and easy to
+connect to others.
 
-The initial reference is the [robot cell architecture proposal](https://docs.google.com/document/d/1mhJU8C7p2SW1ZzIiLx38xdQSYJj1NbP9i424I0eWIvk/edit),
-dated 26 November 2026. Repository documentation is the contributor-facing summary;
-proposals and illustrative thresholds are not validated capabilities.
+## Start small, build together
 
-## Contribute now
+The first planned setup is an **SO-100 arm, two fixed cameras, a tagged block, and
+a matching MuJoCo simulation**. Support for more robots, including YAM, comes later.
 
-Useful first contributions include reviewing component boundaries, specifying ROS
-interfaces, documenting deployment requirements, and defining hardware validation
-procedures. Open a focused design proposal using the issue template, then submit a
-small documentation PR. Implementation begins after maintainers explicitly open
-that phase.
+One early experiment: ask the gripper to hover above a block, try it in simulation
+and on the table, and compare what actually happened. Getting that simple task
+working reliably means bringing motion, perception, calibration, and recording
+together.
 
-## License
+## How the pieces fit
 
-An open-source release is the goal. The license and copyright holder are pending
-maintainer selection; no open-source license has been granted yet. Resolve this
-before inviting external code contributions or publishing an open-source release.
+We’re designing around **ROS 2** to connect five parts of the lab:
+
+| Part | What it does |
+| --- | --- |
+| Environment | Connects the real robot or runs its simulation |
+| Controls | Turns a target into robot motion |
+| Awareness | Tracks the objects and gripper in the workspace |
+| Telemetry | Records what the robot saw and did |
+| Experiment harness | Runs a task and evaluates the result |
+
+Local operation comes first. Later, World Compute and LiveKit can connect the cell
+to remote viewers and operators.
+
+Want the technical details? Read the [architecture](docs/architecture.md) and
+[roadmap](docs/roadmap.md).
+
+## Come help shape it
+
+If you’ve built a robot setup at home, worked with ROS 2, fought with camera
+calibration, or just wanted an easier way to get started, I’d love your input.
+
+Right now, the most useful contributions are:
+
+- Tell us what you’d want from your own robotics lab.
+- Review the design and point out missing pieces.
+- Help define the interfaces between robots, cameras, controls, and experiments.
+- Improve the setup plans and documentation so someone else can follow them.
+
+[Open an issue](https://github.com/worldcompute001/world-compute-cell/issues/new/choose)
+to share an idea, or read [how to contribute](CONTRIBUTING.md) before opening a PR.
+We’re keeping this phase focused on design and documentation; implementation will
+follow once the initial scope and interfaces are agreed on.
+
+## Project notes
+
+The design started with this [robot cell architecture proposal](https://docs.google.com/document/d/1mhJU8C7p2SW1ZzIiLx38xdQSYJj1NbP9i424I0eWIvk/edit).
+We’ll track architectural choices in [decision records](docs/decisions/README.md).
+
+**License:** An open-source release is the goal. We’re still choosing the license;
+no open-source license has been granted yet. We’ll settle that before accepting
+external code contributions.
