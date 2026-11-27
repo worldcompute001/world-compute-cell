@@ -1,4 +1,7 @@
-# Camera observations
+# Optional Windows station camera bridge
+
+**Starting with your own camera?** Use the [generic camera reader](camera-reader.md).
+This page documents our existing station adapter; it is not the default setup.
 
 The first camera adapter reads the existing Windows worker's overhead C920 stream.
 It runs in ROS 2 Jazzy on Ubuntu WSL and never opens a camera or controls a robot.

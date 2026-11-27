@@ -4,7 +4,7 @@
 
 We are defining the cell and bringing up ROS 2. Contributions cover documentation,
 interface proposals, architecture review, validation plans, and the ROS 2 setup
-and communication check, plus the read-only overhead camera adapter. Other runtime
+and communication check, plus the generic camera reader and optional station adapter. Other runtime
 packages and hardware integration require
 a separate scope decision. Documentation contributions need no hardware.
 

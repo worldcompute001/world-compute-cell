@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="3">
   <name>world_compute_camera</name><version>0.1.0</version>
-  <description>Read-only camera observation bridge for a World Compute cell.</description>
+  <description>Generic Linux camera reader and optional station observation bridge.</description>
   <maintainer email="357258244+worldcompute001@users.noreply.github.com">worldcompute001</maintainer>
   <license>LicenseRef-Proprietary</license>
   <buildtool_depend>ament_python</buildtool_depend>

@@ -16,6 +16,8 @@ These are ordered milestones, not scheduled commitments.
 
 ## First camera observation slice
 
+- [x] Provide a generic Linux camera reader with user-selected device and name.
+
 - [x] Reuse the Windows capture owner for the overhead camera.
 - [x] Publish ROS images, uncalibrated camera info, and health status.
 - [x] Verify live frames and transport loss/recovery.

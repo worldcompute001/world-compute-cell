@@ -8,10 +8,12 @@ robotics lab—and make it easier for other people to build their own.
 The idea is simple: connect your robot, see what it sees, control it from your own
 computer, and start experimenting. Then let other people join you remotely.
 
-We’re starting in the open. **ROS 2 and our first overhead camera stream are running.**
-You can follow the [ROS 2 setup guide](docs/ros2-setup.md) and run a communication
-check. The [camera guide](docs/cameras.md) covers the first read-only adapter.
-Calibration, simulation rendering, and robot control are still to come.
+We’re starting with one small building block: **plug in a camera and read it in ROS 2.**
+Choose your own device and give it a name. No robot, calibration, or preset lab setup
+is required. Follow the [first camera guide](docs/camera-reader.md).
+
+If ROS 2 is new to you, start with the [ROS 2 setup guide](docs/ros2-setup.md).
+The rest of the cell is being built incrementally.
 
 ## What we’re building toward
 

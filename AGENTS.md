@@ -1,7 +1,8 @@
 # Contributor instructions for coding agents
 
 The authorized implementation scope includes ROS 2 setup and the read-only overhead
-camera adapter. Reuse the existing camera owner. Robot motion, calibration changes,
+camera adapter and generic Linux camera reader. Reuse an existing camera owner
+where one is already running; do not open that same device with the generic reader. Robot motion, calibration changes,
 and additional runtime components require explicit additional scope.
 Keep smoke checks bounded and isolated from existing robot services.
 
