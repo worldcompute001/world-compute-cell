@@ -127,7 +127,9 @@ identity-change rejection, and runtime command construction have automated tests
 A wheel was installed into fresh Python environments outside the checkout; the
 installed package built and loaded its bundled ROS runtime in Ubuntu WSL. That workstation has no
 Linux-visible camera, so a new Linux USB-camera setup still needs physical validation.
-A fresh-machine run of the dependency installer has not been validated yet.
+The release workflow also passed on a fresh Ubuntu 24.04 runner: dependency installation,
+bundled runtime build, and three ROS tests covering image delivery and failure handling
+with a simulated capture device. These checks do not validate a physical USB camera.
 
 ## Package and runtime storage
 
