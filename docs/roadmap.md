@@ -17,6 +17,8 @@ These are ordered milestones, not scheduled commitments.
 ## First camera observation slice
 
 - [x] Provide a generic Linux camera reader with user-selected device and name.
+- [x] Add a CLI for runtime setup, camera discovery, saved configuration, and launch.
+- [ ] Validate the CLI installer and direct camera capture on a fresh Linux station.
 
 - [x] Reuse the Windows capture owner for the overhead camera.
 - [x] Publish ROS images, uncalibrated camera info, and health status.

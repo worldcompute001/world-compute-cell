@@ -1,117 +1,104 @@
-# Read your first camera
+# Connect your first camera
 
-You need an Ubuntu 24.04 computer with ROS 2 Jazzy and a Linux-visible USB camera.
-You do not need our workstation, a robot, camera presets, or calibration.
+Start with an Ubuntu 24.04 computer and a USB camera. The CLI finds cameras, saves
+your choices, and starts the reader. You do not need to configure ROS yourself.
 
-This first node does one thing: read the device you select and publish ROS images.
+## 1. Prepare your computer
 
-## 1. Find your camera
-
-Plug it in, then run:
+From this repository:
 
 ```bash
-sudo apt-get install v4l-utils
-v4l2-ctl --list-devices
-ls -l /dev/v4l/by-id/
+./cell setup
 ```
 
-Choose a video capture device from the list. A camera can expose multiple device
-nodes, including metadata nodes; inspect its supported capture formats with:
+This installs the dependencies and builds the camera runtime. Ubuntu may ask for
+your administrator password. Run it again after pulling runtime changes to rebuild.
+
+## 2. Find your cameras
+
+Plug in a camera:
 
 ```bash
-v4l2-ctl --device=/dev/video0 --list-formats-ext
+./cell cameras list
 ```
 
-`/dev/video0` is an example, not a preset. Prefer the corresponding
-`/dev/v4l/by-id/...-video-index0` path when available, because numeric device
-indices can change. If permissions prevent access, check `ls -l /dev/video0` and
-`groups`. On a typical Ubuntu installation, joining the `video` group and logging
-out/back in grants device access. Avoid running the node as root.
+You’ll see the detected camera names and whether they are accessible. Metadata-only
+devices are excluded. If nothing appears, check the connection and try again.
 
-**WSL:** a Windows webcam is not automatically a Linux video device. If no video
-device appears, this direct reader cannot use it. Run on a Linux camera host or
-provide a capture adapter. Our [Windows station bridge](cameras.md) is one optional,
-station-specific example. Do not open a camera already owned by another process.
-
-## 2. Build
-
-From this repository's root:
+## 3. Choose and name one
 
 ```bash
-sudo apt-get install --no-install-recommends \
-  python3-opencv python3-colcon-common-extensions
-source /opt/ros/jazzy/setup.bash
-colcon build --packages-select world_compute_camera --symlink-install
-source install/setup.bash
+./cell cameras setup
 ```
 
-## 3. Read it
+Choose a number from the list and enter a name, such as `desk` or `side`. The CLI
+saves the device path, model, connection identity, and requested frame rate. It
+prefers stable device paths where the operating system provides them.
 
-Choose a name describing your camera, such as `desk`:
+Configuration is local to your user account, outside the repository. There are no
+preset camera positions or models.
+
+## 4. Start reading
 
 ```bash
-export ROS_DOMAIN_ID=87
-export ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST
-unset ROS_STATIC_PEERS
-ros2 run world_compute_camera camera_reader --ros-args \
-  -p device:=/dev/video0 -p camera_name:=desk -p fps:=15.0
+./cell cameras start desk
 ```
 
-The node prints the actual image dimensions on its first frame and publishes:
+The reader reports the first image's dimensions. Leave it running while other cell
+components consume the images; press Ctrl-C to stop. With only one configured
+camera, `./cell cameras start` selects it automatically.
 
-```text
-/cameras/desk/image_raw   sensor_msgs/Image
-```
+A different device identity, missing permissions, or a disconnected camera produces
+an error. The CLI does not silently switch to another camera. Stop other applications
+that already own the device before starting a reader.
 
-Images use BGR8 encoding and the frame ID `desk_optical_frame`. Frame timestamps
-are host receipt times after reading, not measured sensor exposure timestamps.
-`fps` requests a capture rate and sets the polling rate; the actual rate depends
-on the camera, driver, and processing. Resolution uses the camera driver's default;
-this first reader does not resize or configure calibration.
+This first CLI starts image publication. A CLI-managed graphical preview is not
+implemented yet. Developers can inspect the stream with the existing tools in the
+[ROS integration guide](camera-reader-developer.md).
 
-Stop with Ctrl-C to release the device. If opening or reading fails, the node exits
-with an error rather than publishing an old frame. Reconnect/fix the device and
-restart. There is no automatic reconnect, device scanning, or hotplug switching.
-
-## 4. See the image
-
-In another terminal, source ROS and the workspace and set the same ROS environment
-variables as above. Install and open the ROS image viewer:
+## Manage your setup
 
 ```bash
-sudo apt-get install ros-jazzy-rqt-image-view
-ros2 run rqt_image_view rqt_image_view
+./cell cameras configured
+./cell cameras remove desk
 ```
 
-Select `/cameras/desk/image_raw`. On a headless host, check receipt without a GUI:
+Removing a saved choice does not stop an already running process. For another
+camera, run setup again and give it a different name, then start it in a second
+terminal.
+
+For scripts, skip the prompts with an explicit selection:
 
 ```bash
-ros2 topic echo /cameras/desk/image_raw --once --field width \
-  --qos-reliability best_effort
+./cell cameras setup --device /dev/video0 --name desk --fps 15
+./cell cameras list --json
 ```
 
-The publisher uses best-effort sensor-data QoS. A viewer/subscriber must support it.
-Localhost discovery means the viewer must run on the same ROS host for this guide.
+`/dev/video0` is an example. Choose a device returned by the list command.
 
-## Add another camera later
+You can also put this checkout on your shell's PATH to type `cell` instead of
+`./cell`. The checked-in launcher needs only Python 3; it handles the runtime
+environment each time it launches the reader.
 
-Run another process with its own device, camera name, and node name:
+## Current support
 
-```bash
-ros2 run world_compute_camera camera_reader --ros-args \
-  -r __node:=side_camera_reader \
-  -p device:=/dev/video2 -p camera_name:=side -p fps:=15.0
-```
+- Automatic setup: Ubuntu 24.04, using ROS 2 Jazzy internally.
+- Capture: Linux-visible video devices supported by OpenCV's V4L2 backend.
+- WSL: Windows webcams need a Linux device attachment or a separate adapter.
+  The existing [Windows station bridge](cameras.md) is one such adapter, and is
+  independent of the generic CLI.
+- Native macOS/Windows capture, calibration, simulation, and automatic reconnect
+  are future work.
 
-This publishes `/cameras/side/image_raw` with `side_optical_frame`. The node assumes
-no overhead/wrist roles or fixed camera count. Choose distinct names and devices.
+Camera configuration is stored in `~/.config/world-compute-cell/cameras.json`
+(or under `XDG_CONFIG_HOME`). Frames are published locally, not uploaded. Starting
+readers through this CLI prevents duplicate CLI owners for the same device within
+the same user account; it cannot arbitrate unrelated capture applications.
 
-## What comes after reading
+## Verification status
 
-Calibration, CameraInfo, table-relative transforms, and MuJoCo rendering are later
-layers. This direct reader publishes only images. The existing `camera_bridge`
-executable is an optional adapter for our station and is not required here.
-
-Implementation checks use mocked capture to exercise image payloads and failure
-cleanup on ROS 2 Jazzy. Direct USB capture has not been hardware-tested in this
-project: the available workstation's webcam remains owned by its Windows worker.
+Device selection, stable path preference, metadata filtering, configuration writes,
+identity-change rejection, and runtime command construction have automated tests.
+The CLI and runtime build are also checked in Ubuntu WSL. That workstation has no
+Linux-visible camera, so a new Linux USB-camera setup still needs physical validation.
+A fresh-machine run of the dependency installer has not been validated yet.

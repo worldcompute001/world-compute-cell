@@ -8,11 +8,18 @@ robotics lab—and make it easier for other people to build their own.
 The idea is simple: connect your robot, see what it sees, control it from your own
 computer, and start experimenting. Then let other people join you remotely.
 
-We’re starting with one small building block: **plug in a camera and read it in ROS 2.**
-Choose your own device and give it a name. No robot, calibration, or preset lab setup
-is required. Follow the [first camera guide](docs/camera-reader.md).
+We’re starting with one small building block: **connect a camera and start reading it.**
+On Ubuntu 24.04, the CLI handles the runtime setup for you:
 
-If ROS 2 is new to you, start with the [ROS 2 setup guide](docs/ros2-setup.md).
+```bash
+./cell setup
+./cell cameras list
+./cell cameras setup
+./cell cameras start
+```
+
+Choose your camera from the list and give it a name. No robot, calibration, or
+preset lab setup is required. Follow the [first camera guide](docs/camera-reader.md).
 The rest of the cell is being built incrementally.
 
 ## What we’re building toward
