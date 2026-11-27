@@ -18,6 +18,7 @@ These are ordered milestones, not scheduled commitments.
 
 - [x] Provide a generic Linux camera reader with user-selected device and name.
 - [x] Add a CLI for runtime setup, camera discovery, saved configuration, and launch.
+- [x] Package the CLI and bundled runtime for pip/pipx installation with `world-compute cell`.
 - [ ] Validate the CLI installer and direct camera capture on a fresh Linux station.
 
 - [x] Reuse the Windows capture owner for the overhead camera.

@@ -49,3 +49,15 @@ recordings. Use anonymized examples when explaining observations.
 The project license is pending. Maintainers must choose a license and establish
 contribution terms before accepting external implementation contributions. Do not
 assume a contributor agreement, copyright assignment, or license choice.
+
+## Python package development
+
+Install into a virtual environment with `python -m pip install -e .`. The public
+entry point is `world-compute cell`; module execution also works with
+`python -m world_compute_cell cell`. CLI code lives in `world_compute_cell/` and
+bundled ROS source in `world_compute_cell/ros_packages/`.
+
+Run `python -m unittest discover -s tests -v`. Build a wheel with
+`python -m pip wheel . --no-deps --wheel-dir dist`, then test it in a clean virtual
+environment from outside the repository. Verify both command help and the bundled
+runtime files. ROS-specific tests under `tests/ros/` require the sourced runtime.

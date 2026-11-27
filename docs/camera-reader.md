@@ -3,32 +3,58 @@
 Start with an Ubuntu 24.04 computer and a USB camera. The CLI finds cameras, saves
 your choices, and starts the reader. You do not need to configure ROS yourself.
 
-## 1. Prepare your computer
+## 1. Install the Python package
 
-From this repository:
+On Ubuntu 24.04, install pipx and Git if needed:
 
 ```bash
-./cell setup
+sudo apt-get install pipx git
+pipx ensurepath
+```
+
+Open a new terminal, then install:
+
+```bash
+pipx install "git+https://github.com/worldcompute001/world-compute-cell.git"
+```
+
+Alternatively, inside a Python virtual environment:
+
+```bash
+python -m pip install "git+https://github.com/worldcompute001/world-compute-cell.git"
+```
+
+The package is called `world-compute-cell` and installs the `world-compute` command.
+It currently installs from GitHub; it is not published on PyPI. Python 3.10 or newer
+is required for the CLI. Camera runtime setup currently supports Ubuntu 24.04.
+
+## 2. Prepare your computer
+
+From any directory:
+
+```bash
+world-compute cell setup
 ```
 
 This installs the dependencies and builds the camera runtime. Ubuntu may ask for
-your administrator password. Run it again after pulling runtime changes to rebuild.
+your administrator password. After upgrading the Python package, run setup again to build its camera runtime.
+The package bundles the necessary sources; a source checkout is not required.
 
-## 2. Find your cameras
+## 3. Find your cameras
 
 Plug in a camera:
 
 ```bash
-./cell cameras list
+world-compute cell cameras list
 ```
 
 You’ll see the detected camera names and whether they are accessible. Metadata-only
 devices are excluded. If nothing appears, check the connection and try again.
 
-## 3. Choose and name one
+## 4. Choose and name one
 
 ```bash
-./cell cameras setup
+world-compute cell cameras setup
 ```
 
 Choose a number from the list and enter a name, such as `desk` or `side`. The CLI
@@ -38,15 +64,15 @@ prefers stable device paths where the operating system provides them.
 Configuration is local to your user account, outside the repository. There are no
 preset camera positions or models.
 
-## 4. Start reading
+## 5. Start reading
 
 ```bash
-./cell cameras start desk
+world-compute cell cameras start desk
 ```
 
 The reader reports the first image's dimensions. Leave it running while other cell
 components consume the images; press Ctrl-C to stop. With only one configured
-camera, `./cell cameras start` selects it automatically.
+camera, `world-compute cell cameras start` selects it automatically.
 
 A different device identity, missing permissions, or a disconnected camera produces
 an error. The CLI does not silently switch to another camera. Stop other applications
@@ -59,8 +85,8 @@ implemented yet. Developers can inspect the stream with the existing tools in th
 ## Manage your setup
 
 ```bash
-./cell cameras configured
-./cell cameras remove desk
+world-compute cell cameras configured
+world-compute cell cameras remove desk
 ```
 
 Removing a saved choice does not stop an already running process. For another
@@ -70,15 +96,14 @@ terminal.
 For scripts, skip the prompts with an explicit selection:
 
 ```bash
-./cell cameras setup --device /dev/video0 --name desk --fps 15
-./cell cameras list --json
+world-compute cell cameras setup --device /dev/video0 --name desk --fps 15
+world-compute cell cameras list --json
 ```
 
 `/dev/video0` is an example. Choose a device returned by the list command.
 
-You can also put this checkout on your shell's PATH to type `cell` instead of
-`./cell`. The checked-in launcher needs only Python 3; it handles the runtime
-environment each time it launches the reader.
+The CLI handles the runtime environment every time it launches the reader.
+Use `world-compute --version` or `world-compute cell --help` to inspect the installed CLI.
 
 ## Current support
 
@@ -99,6 +124,21 @@ the same user account; it cannot arbitrate unrelated capture applications.
 
 Device selection, stable path preference, metadata filtering, configuration writes,
 identity-change rejection, and runtime command construction have automated tests.
-The CLI and runtime build are also checked in Ubuntu WSL. That workstation has no
+A wheel was installed into fresh Python environments outside the checkout; the
+installed package built and loaded its bundled ROS runtime in Ubuntu WSL. That workstation has no
 Linux-visible camera, so a new Linux USB-camera setup still needs physical validation.
 A fresh-machine run of the dependency installer has not been validated yet.
+
+## Package and runtime storage
+
+The pip package contains the CLI and the ROS camera source. `world-compute cell setup`
+copies the source into a runtime workspace under
+`~/.local/share/world-compute-cell/runtimes/` (or `XDG_DATA_HOME`) and builds there.
+The workspace is keyed by the bundled source contents, so upgrades do not overwrite
+a runtime used by an existing process. Old runtime directories can be removed after
+their readers have stopped. Configuration remains in the same per-user config file
+across package upgrades.
+
+ROS uses Ubuntu's system Python internally, independently of the Python environment
+used to install the CLI. Installing the pip package alone does not install OS packages
+or change camera services; the explicit setup command installs dependencies.

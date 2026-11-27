@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "world-compute-cell"
+dynamic = ["version"]
+description = "Set up cameras and run a local robotics cell through a simple CLI"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{name = "World Compute"}]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Operating System :: POSIX :: Linux",
+  "Programming Language :: Python :: 3",
+]
+
+[project.scripts]
+world-compute = "world_compute_cell.main:main"
+
+[project.urls]
+Repository = "https://github.com/worldcompute001/world-compute-cell"
+Issues = "https://github.com/worldcompute001/world-compute-cell/issues"
+
+[tool.setuptools]
+packages = ["world_compute_cell"]
+
+[tool.setuptools.dynamic]
+version = {attr = "world_compute_cell.__version__"}
+
+[tool.setuptools.package-data]
+world_compute_cell = [
+  "ros_packages/world_compute_camera/package.xml",
+  "ros_packages/world_compute_camera/setup.py",
+  "ros_packages/world_compute_camera/setup.cfg",
+  "ros_packages/world_compute_camera/resource/world_compute_camera",
+  "ros_packages/world_compute_camera/world_compute_camera/*.py",
+]

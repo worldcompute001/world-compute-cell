@@ -53,25 +53,25 @@ def configure(args):
     data = load()
     add(data, name, camera, args.fps)
     save(data)
-    print(f'Saved {name}. Start reading with: cell cameras start {name}')
+    print(f'Saved {name}. Start reading with: world-compute cell cameras start {name}')
 
 
 def start(name):
     require_linux()
     data = load()['cameras']
     if not data:
-        raise ValueError('No cameras configured. Run: cell cameras setup')
+        raise ValueError('No cameras configured. Run: world-compute cell cameras setup')
     if not name:
         if len(data) != 1:
             raise ValueError('Choose a configured camera: ' + ', '.join(data))
         name = next(iter(data))
     if name not in data:
-        raise ValueError(f'Unknown camera {name}. Run: cell cameras configured')
+        raise ValueError(f'Unknown camera {name}. Run: world-compute cell cameras configured')
     entry = data[name]
     cameras = discover()
     selected = next((c for c in cameras if Path(c.device).resolve() == Path(entry['device']).resolve()), None)
     if selected is None or selected.state != 'available':
-        raise ValueError(f'{name} is disconnected or inaccessible. Reconnect it and run: cell cameras list')
+        raise ValueError(f'{name} is disconnected or inaccessible. Reconnect it and run: world-compute cell cameras list')
     if selected.name != entry['model'] or (entry['bus'] and selected.bus != entry['bus']):
         raise ValueError('Device identity changed. Run camera setup again instead of using a different camera silently.')
     import fcntl
@@ -94,8 +94,12 @@ def start(name):
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(prog='cell', description='Set up your local robotics workspace.')
-    commands = parser.add_subparsers(dest='command', required=True)
+    parser = argparse.ArgumentParser(prog='world-compute', description='Tools for your robotics workspace.')
+    from . import __version__
+    parser.add_argument('--version', action='version', version=f'%(prog)s {__version__}')
+    groups = parser.add_subparsers(dest='group', required=True)
+    cell = groups.add_parser('cell', help='Set up and operate a local robot cell')
+    commands = cell.add_subparsers(dest='command', required=True)
     commands.add_parser('setup', help='Install and build the camera runtime on Ubuntu 24.04')
     cameras = commands.add_parser('cameras', help='Find, configure, and read your cameras')
     actions = cameras.add_subparsers(dest='action', required=True)
@@ -123,7 +127,7 @@ def main(argv=None):
             for name, entry in data.items():
                 print(f'{name}: {entry["model"]} — {entry["device"]} ({entry["fps"]} fps requested)')
             if not data:
-                print('No cameras configured. Run: cell cameras setup')
+                print('No cameras configured. Run: world-compute cell cameras setup')
         elif args.action == 'remove':
             data = load()
             if args.name not in data['cameras']:
@@ -138,5 +142,5 @@ def main(argv=None):
         print('\nStopped.')
         return 130
     except (ValueError, OSError, subprocess.SubprocessError) as error:
-        print(f'cell: {error}', file=sys.stderr)
+        print(f'world-compute cell: {error}', file=sys.stderr)
         return 1

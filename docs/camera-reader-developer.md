@@ -41,7 +41,8 @@ From this repository's root:
 sudo apt-get install --no-install-recommends \
   python3-opencv python3-colcon-common-extensions
 source /opt/ros/jazzy/setup.bash
-colcon build --packages-select world_compute_camera --symlink-install
+colcon build --base-paths world_compute_cell/ros_packages \
+  --packages-select world_compute_camera --symlink-install
 source install/setup.bash
 ```
 

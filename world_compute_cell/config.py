@@ -54,7 +54,7 @@ def add(data, name, camera, fps):
     entry = {'device': camera.device, 'model': camera.name, 'bus': camera.bus, 'fps': fps}
     validate_camera(name, entry)
     if name in data['cameras']:
-        raise ValueError(f'{name} is already configured. Remove it first with: cell cameras remove {name}')
+        raise ValueError(f'{name} is already configured. Remove it first with: world-compute cell cameras remove {name}')
     for existing in data['cameras'].values():
         if Path(existing['device']).resolve() == Path(camera.device).resolve():
             raise ValueError('This device is already configured under another name.')

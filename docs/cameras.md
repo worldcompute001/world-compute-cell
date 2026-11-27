@@ -65,7 +65,8 @@ On Ubuntu 24.04 with ROS 2 Jazzy installed:
 ```bash
 sudo apt-get install --no-install-recommends python3-opencv python3-colcon-common-extensions
 source /opt/ros/jazzy/setup.bash
-colcon build --packages-select world_compute_camera --symlink-install
+colcon build --base-paths world_compute_cell/ros_packages \
+  --packages-select world_compute_camera --symlink-install
 source install/setup.bash
 export ROS_DOMAIN_ID=87
 export ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST

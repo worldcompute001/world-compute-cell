@@ -4,7 +4,7 @@ from pathlib import Path
 import tempfile
 import unittest
 import sys
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src/world_compute_camera'))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'world_compute_cell/ros_packages/world_compute_camera'))
 from world_compute_camera.source import FrameSource
 
 

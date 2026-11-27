@@ -9,14 +9,19 @@ The idea is simple: connect your robot, see what it sees, control it from your o
 computer, and start experimenting. Then let other people join you remotely.
 
 We’re starting with one small building block: **connect a camera and start reading it.**
-On Ubuntu 24.04, the CLI handles the runtime setup for you:
+Install the Python CLI, then let it prepare your Ubuntu 24.04 camera computer:
 
 ```bash
-./cell setup
-./cell cameras list
-./cell cameras setup
-./cell cameras start
+pipx install "git+https://github.com/worldcompute001/world-compute-cell.git"
+world-compute cell setup
+world-compute cell cameras list
+world-compute cell cameras setup
+world-compute cell cameras start
 ```
+
+The Python package is `world-compute-cell`; the command is `world-compute`.
+You can also install the same Git URL with `pip install` inside a virtual environment.
+The package is not published on PyPI yet.
 
 Choose your camera from the list and give it a name. No robot, calibration, or
 preset lab setup is required. Follow the [first camera guide](docs/camera-reader.md).
