@@ -1,0 +1,80 @@
+name: Test and publish Python package
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish tested archives to PyPI
+        required: true
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: pypi-release
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.10'
+      - run: python -m pip install build twine
+      - run: python -m unittest discover -s tests -v
+      - run: python -m build
+      - run: python -m twine check --strict dist/*
+      - run: |
+          python -m venv "$RUNNER_TEMP/package-test"
+          "$RUNNER_TEMP/package-test/bin/python" -m pip install --no-deps dist/*.whl
+          cd "$RUNNER_TEMP"
+          "$RUNNER_TEMP/package-test/bin/python" "$GITHUB_WORKSPACE/scripts/check-installed-package.py"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: distributions
+          path: dist/*
+          if-no-files-found: error
+  runtime:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: distributions
+          path: dist
+      - name: Install wheel and prepare camera runtime
+        run: |
+          python -m venv "$RUNNER_TEMP/package-test"
+          "$RUNNER_TEMP/package-test/bin/python" -m pip install --no-deps dist/*.whl
+          cd "$RUNNER_TEMP"
+          "$RUNNER_TEMP/package-test/bin/world-compute" cell setup
+          "$RUNNER_TEMP/package-test/bin/world-compute" cell cameras list
+          "$RUNNER_TEMP/package-test/bin/python" "$GITHUB_WORKSPACE/scripts/check-installed-package.py"
+      - name: Verify ROS camera publication and failure handling without hardware
+        run: |
+          workspace=$("$RUNNER_TEMP/package-test/bin/python" -c 'from world_compute_cell.runtime import workspace_path; print(workspace_path())')
+          source /opt/ros/jazzy/setup.bash
+          source "$workspace/install/setup.bash"
+          /usr/bin/python3 -m unittest discover -s tests/ros -v
+  publish:
+    if: inputs.publish && github.ref == 'refs/heads/main'
+    needs: [build, runtime]
+    runs-on: ubuntu-24.04
+    environment:
+      name: pypi
+      url: https://pypi.org/project/world-compute-cell/
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: distributions
+          path: dist
+      - name: Publish the exact tested archives
+        uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # v1.14.3

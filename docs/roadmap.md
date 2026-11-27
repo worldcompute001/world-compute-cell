@@ -7,7 +7,8 @@ These are ordered milestones, not scheduled commitments.
 - [x] Establish scope and local-first architecture summary.
 - [x] Document contribution and architectural decision workflows.
 - [x] Provide design issue and PR templates.
-- [ ] Choose license, copyright holder, maintainers, and repository host.
+- [x] Choose MIT license and World Compute as copyright holder; host under worldcompute001.
+- [ ] Document maintainer and review ownership.
 - [ ] Agree on first supported station OS and ROS 2 distribution.
 - [ ] Review ROS interfaces, namespaces, clocks, QoS, and ownership protocol.
 - [ ] Define local operator flows and the first hardware acceptance procedure.

@@ -10,7 +10,7 @@ proposal, not a claim that every integration choice has been finalized.
 
 Initial decisions to resolve:
 
-- License, contribution terms, and maintainership.
+- Maintainer and review ownership (MIT license selected).
 - Station OS, ROS 2 distribution, and installation model.
 - Component/package boundaries and ROS interface ownership.
 - Frames, clocks, namespaces, and QoS.

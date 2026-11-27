@@ -24,7 +24,7 @@ You can also install the same Git URL with `pip install` inside a virtual enviro
 The package is not published on PyPI yet.
 
 Choose your camera from the list and give it a name. No robot, calibration, or
-preset lab setup is required. Follow the [first camera guide](docs/camera-reader.md).
+preset lab setup is required. Follow the [first camera guide](https://github.com/worldcompute001/world-compute-cell/blob/main/docs/camera-reader.md).
 The rest of the cell is being built incrementally.
 
 ## What we’re building toward
@@ -69,8 +69,8 @@ We’re designing around **ROS 2** to connect five parts of the lab:
 Local operation comes first. Later, World Compute and LiveKit can connect the cell
 to remote viewers and operators.
 
-Want the technical details? Read the [architecture](docs/architecture.md) and
-[roadmap](docs/roadmap.md).
+Want the technical details? Read the [architecture](https://github.com/worldcompute001/world-compute-cell/blob/main/docs/architecture.md) and
+[roadmap](https://github.com/worldcompute001/world-compute-cell/blob/main/docs/roadmap.md).
 
 ## Come help shape it
 
@@ -85,15 +85,13 @@ Right now, the most useful contributions are:
 - Improve the setup plans and documentation so someone else can follow them.
 
 [Open an issue](https://github.com/worldcompute001/world-compute-cell/issues/new/choose)
-to share an idea, or read [how to contribute](CONTRIBUTING.md) before opening a PR.
+to share an idea, or read [how to contribute](https://github.com/worldcompute001/world-compute-cell/blob/main/CONTRIBUTING.md) before opening a PR.
 The current implementation scope is ROS 2 setup and read-only camera observations.
 Cell controls and simulation integration are still being designed.
 
 ## Project notes
 
 The design started with this [robot cell architecture proposal](https://docs.google.com/document/d/1mhJU8C7p2SW1ZzIiLx38xdQSYJj1NbP9i424I0eWIvk/edit).
-We’ll track architectural choices in [decision records](docs/decisions/README.md).
+We’ll track architectural choices in [decision records](https://github.com/worldcompute001/world-compute-cell/blob/main/docs/decisions/README.md).
 
-**License:** An open-source release is the goal. We’re still choosing the license;
-no open-source license has been granted yet. We’ll settle that before accepting
-external code contributions.
+**License:** [MIT](https://github.com/worldcompute001/world-compute-cell/blob/main/LICENSE).

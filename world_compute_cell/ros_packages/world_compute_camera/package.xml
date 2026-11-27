@@ -3,7 +3,7 @@
   <name>world_compute_camera</name><version>0.1.0</version>
   <description>Generic Linux camera reader and optional station observation bridge.</description>
   <maintainer email="357258244+worldcompute001@users.noreply.github.com">worldcompute001</maintainer>
-  <license>LicenseRef-Proprietary</license>
+  <license>MIT</license>
   <buildtool_depend>ament_python</buildtool_depend>
   <exec_depend>rclpy</exec_depend><exec_depend>sensor_msgs</exec_depend>
   <exec_depend>diagnostic_msgs</exec_depend><exec_depend>python3-opencv</exec_depend>

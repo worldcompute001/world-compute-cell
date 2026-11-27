@@ -46,9 +46,8 @@ recordings. Use anonymized examples when explaining observations.
 
 ## Licensing
 
-The project license is pending. Maintainers must choose a license and establish
-contribution terms before accepting external implementation contributions. Do not
-assume a contributor agreement, copyright assignment, or license choice.
+This project is licensed under the [MIT license](LICENSE). Contributions are
+provided under the same license.
 
 ## Python package development
 
